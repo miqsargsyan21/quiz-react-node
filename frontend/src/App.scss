@@ -1,0 +1,279 @@
+body {
+  background-color: lightblue;
+
+  #exit-user-mode {
+    margin: 0 !important;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 120px;
+  }
+
+  #success-registration {
+    width: fit-content;
+    text-align: center;
+    color: white;
+    border: 2px solid white;
+    border-radius: 15px;
+    padding: 40px 50px;
+    margin: 10px auto;
+
+    button {
+      margin: 20px auto;
+    }
+  }
+
+  #welcome {
+    text-align: center;
+    margin: 30px auto;
+    padding: 40px 80px;
+    color: white;
+    border: 2px solid white;
+    border-radius: 15px;
+    width: fit-content;
+  }
+
+  #exit-admin-mode {
+    margin: 0;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 120px;
+  }
+
+  .App {
+    .modal-container {
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    #modal-view {
+      width: fit-content;
+      padding: 20px 50px;
+      background-color: rgb(94, 240, 255);
+      border-radius: 20px;
+
+      #close-modal-info {
+        height: 50px;
+        width: 100px;
+        margin-left: calc(50% - 50px);
+        margin-top: 10px;
+      }
+    }
+
+    header {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    main {
+      height: calc(100vh - 100px);
+
+      #admin-welcome-div {
+        float: right;
+        width: calc(100vw - 200px);
+        text-align: center;
+        margin-top: 20%;
+      }
+
+      #menu {
+        margin: 20px auto;
+        padding: 0;
+        overflow: hidden;
+        width: fit-content;
+
+        #firstLink {
+          margin-left: 0 !important;
+        }
+
+        li:hover {
+          background-color: green;
+        }
+
+        li {
+          float: left;
+          margin-left: 10px;
+          font-size: 20px;
+          list-style: none;
+          background-color: white;
+          border-radius: 15px;
+
+          a {
+            color: black;
+            padding: 25px;
+            text-decoration: none;
+          }
+        }
+      }
+
+      #menu-admin-side {
+        height: 100%;
+        width: fit-content;
+        float: left;
+        padding: 15px;
+
+        #menu-admin {
+          height: 100%;
+          padding: 15px;
+          border-right: 1px solid gray;
+          width: fit-content;
+
+          li {
+            list-style: none;
+
+            a {
+              color: black;
+              padding: 7px 15px;
+              text-decoration: none;
+            }
+
+            a:hover {
+              background-color: green;
+              border-radius: 15px;
+            }
+          }
+        }
+      }
+
+      #questions-table {
+        margin: 20px auto;
+        width: calc(100vw - 200px);
+
+        tbody {
+          .image-view:hover {
+            background-color: green;
+            cursor: pointer;
+            border-radius: 50%;
+            padding: 6px;
+            border: 2px solid gray;
+          }
+
+          #delete-question-img:hover {
+            background-color: red;
+          }
+
+          .image-view {
+            padding: 10px;
+            width: 45px;
+            height: 45px;
+          }
+
+          #button-add {
+            width: 150px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+          }
+        }
+      }
+
+      .mini-div-input {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 0 10px 0;
+
+        input[type="text"] {
+          width: 200px;
+          margin: 0;
+        }
+
+        input[type="radio"] {
+          width: fit-content;
+          margin: 0 10px 0 0;
+        }
+      }
+
+      #button-add-confirm, #close-add-modal {
+        width: 150px;
+        margin: 15px calc(50% - 75px) 0 calc(50% - 75px);
+      }
+
+      button {
+        text-align: center;
+        width: 100px;
+        margin-left: calc(50% - 58px);
+        margin-top: 50px;
+      }
+
+      #buttonLoginUser {
+        width: 150px;
+        margin-left: calc(50% - 75px);
+      }
+
+      #buttonLoginUser {
+        margin-top: 10px;
+
+        a {
+          color: white;
+          padding-left: 54px;
+          padding-right: 54px;
+          padding-top: 9px;
+          padding-bottom: 9px;
+          text-decoration: none;
+        }
+      }
+
+      input {
+        width: 300px;
+        margin-top: 10px;
+        margin-left: calc(50% - 150px);
+      }
+
+      #userButtonSaveRegister {
+        margin-top: 10px;
+      }
+    }
+
+    #question-div {
+      display: none;
+
+      button {
+        width: 100px;
+        margin-left: calc(50% - 54px);
+        margin-top: 50px;
+      }
+
+      #btn-answer {
+        margin-top: 10px;
+      }
+
+      p, h6, form {
+        margin-left: calc(50% - 80px);
+      }
+
+      h6 {
+        margin-top: 20px;
+      }
+
+      input {
+        margin-right: 5px;
+      }
+
+      #result-div {
+        margin-top: 40px;
+        font-size: 18px;
+        font-style: oblique;
+      }
+
+      #progress-bar {
+        width: 200px;
+        height: 20px;
+        margin: 25px auto;
+        border: 1px solid lime;
+        border-radius: 10px;
+
+        #progress-state {
+          height: 20px;
+          border-radius: 10px;
+          background-color: lime;
+        }
+      }
+    }
+  }
+}
