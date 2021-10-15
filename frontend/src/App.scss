@@ -1,6 +1,11 @@
 body {
   background-color: lightblue;
 
+  #button-add {
+    width: 150px;
+    margin: 20px;
+  }
+
   #exit-user-mode {
     margin: 0 !important;
     position: absolute;
@@ -41,7 +46,7 @@ body {
     width: 120px;
   }
 
-  .App {
+
     .modal-container {
       align-items: center;
       justify-content: center;
@@ -74,12 +79,21 @@ body {
 
     main {
       height: calc(100vh - 100px);
-
+    }
       #admin-welcome-div {
         float: right;
         width: calc(100vw - 200px);
         text-align: center;
-        margin-top: 20%;
+        margin-top: 10%;
+
+        h3 {
+          width: fit-content;
+          margin: 0 auto;
+          padding: 70px 120px;
+          border: 2px solid;
+          box-shadow: 5px 2px 5px;
+          border-radius: 25px;
+        }
       }
 
       #menu {
@@ -163,12 +177,6 @@ body {
             width: 45px;
             height: 45px;
           }
-
-          #button-add {
-            width: 150px;
-            margin-top: 5px;
-            margin-bottom: 5px;
-          }
         }
       }
 
@@ -228,7 +236,7 @@ body {
       #userButtonSaveRegister {
         margin-top: 10px;
       }
-    }
+
 
     #question-div {
       display: none;
@@ -275,5 +283,5 @@ body {
         }
       }
     }
-  }
+
 }

@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="56d1e3dd-c305-496d-a405-b91ddce93c13" name="Changes" comment="" />
+    <list default="true" id="56d1e3dd-c305-496d-a405-b91ddce93c13" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../backend/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Admin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Admin.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Start.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Start.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/User.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/User.jsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -16,6 +27,7 @@
     </file-type-list>
   </component>
   <component name="ProjectId" id="1yuQ0J6cvsUnAoCM9IbLEt2ZyS5" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -65,7 +77,13 @@
       <workItem from="1633533899677" duration="1752000" />
       <workItem from="1633605857979" duration="11544000" />
       <workItem from="1633693090045" duration="5026000" />
-      <workItem from="1633945673470" duration="5319000" />
+      <workItem from="1633945673470" duration="7173000" />
+      <workItem from="1634038913061" duration="1078000" />
+      <workItem from="1634106304655" duration="4440000" />
+      <workItem from="1634116461163" duration="28000" />
+      <workItem from="1634210104520" duration="10628000" />
+      <workItem from="1634290135639" duration="9966000" />
+      <workItem from="1634303819889" duration="3669000" />
     </task>
     <servers />
   </component>
