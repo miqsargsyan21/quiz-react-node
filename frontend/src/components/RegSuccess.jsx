@@ -1,7 +1,7 @@
 import React from 'react';
 import {useHistory} from "react-router-dom";
 
-const User = () => {
+const RegSuccess = () => {
     let history = useHistory();
 
     const backToLogin = () => {
@@ -16,4 +16,4 @@ const User = () => {
     );
 }
 
-export default User;
+export default RegSuccess;
