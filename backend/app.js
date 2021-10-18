@@ -101,10 +101,10 @@ async function start () {
             });
         });
 
-        app.get('/getUser/:un/:pw', function (req, res) {
+        app.get('/getUser/:username/:password', function (req, res) {
             allUsersData.findOne({
-                username: req.params.un,
-                password: req.params.pw
+                username: req.params.username,
+                password: req.params.password
             }, (err, data) => {
                 if (err) {
                     res.status(400).send({message: err.message});

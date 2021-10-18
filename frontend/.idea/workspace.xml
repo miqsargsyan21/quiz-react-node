@@ -3,10 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="56d1e3dd-c305-496d-a405-b91ddce93c13" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../backend/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Admin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Admin.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Start.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Start.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/User.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/User.jsx" afterDir="false" />
     </list>
@@ -83,7 +83,8 @@
       <workItem from="1634116461163" duration="28000" />
       <workItem from="1634210104520" duration="10628000" />
       <workItem from="1634290135639" duration="9966000" />
-      <workItem from="1634303819889" duration="3669000" />
+      <workItem from="1634303819889" duration="4029000" />
+      <workItem from="1634555485828" duration="3609000" />
     </task>
     <servers />
   </component>

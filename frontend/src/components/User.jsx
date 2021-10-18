@@ -1,9 +1,9 @@
 import React from 'react';
-import {startingQuiz} from "./Starting";
+import QuestionsComponent from "./QuestionsComponent";
 
 const User = () => {
     return (
-        <button id = "button-start" onClick = {startingQuiz} type="button" className="btn btn-success">Start</button>
+        <QuestionsComponent/>
     );
 }
 

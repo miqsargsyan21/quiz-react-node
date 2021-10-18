@@ -14,6 +14,35 @@ body {
     width: 120px;
   }
 
+  #menu-admin-side {
+    height: 100%;
+    width: fit-content;
+    float: left;
+    padding: 15px;
+
+    #menu-admin {
+      height: 90vh;
+      padding: 15px;
+      border-right: 1px solid gray;
+      width: fit-content;
+
+      li {
+        list-style: none;
+
+        a {
+          color: black;
+          padding: 7px 15px;
+          text-decoration: none;
+        }
+
+        a:hover {
+          background-color: green;
+          border-radius: 15px;
+        }
+      }
+    }
+  }
+
   #success-registration {
     width: fit-content;
     text-align: center;
@@ -126,35 +155,6 @@ body {
         }
       }
 
-      #menu-admin-side {
-        height: 100%;
-        width: fit-content;
-        float: left;
-        padding: 15px;
-
-        #menu-admin {
-          height: 100%;
-          padding: 15px;
-          border-right: 1px solid gray;
-          width: fit-content;
-
-          li {
-            list-style: none;
-
-            a {
-              color: black;
-              padding: 7px 15px;
-              text-decoration: none;
-            }
-
-            a:hover {
-              background-color: green;
-              border-radius: 15px;
-            }
-          }
-        }
-      }
-
       #questions-table {
         margin: 20px auto;
         width: calc(100vw - 200px);
@@ -239,8 +239,6 @@ body {
 
 
     #question-div {
-      display: none;
-
       button {
         width: 100px;
         margin-left: calc(50% - 54px);
@@ -261,6 +259,8 @@ body {
 
       input {
         margin-right: 5px;
+        width: fit-content;
+        margin-left: 0;
       }
 
       #result-div {
