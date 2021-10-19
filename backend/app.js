@@ -57,14 +57,18 @@ async function start () {
             res.send("apps");
         });
 
-        app.post('/addQuestion', function (req, res) {
+        app.post('/addQuestion', (req, res) => {
             const a = new allQuestionsData(req.body)
             a.save()
-                .then(r=> res.status(201).send({success: true, message: 'Question aded'}))
-                .catch(err=>res.status(400).send({message: err.message}))
+                .then(() => {
+                    allQuestionsData.find((err, data) => {
+                        res.status(200).json(data);
+                    });
+                })
+                .catch(err => res.status(400).send({message: err.message}));
         });
 
-        app.post('/addUser', function (req, res) {
+        app.post('/addUser', (req, res) => {
             let errMessage = "";
             allUsersData.find((err, data) => {
                 if (err) {
@@ -91,7 +95,7 @@ async function start () {
             });
         });
 
-        app.get('/getAllUsers', function (req, res) {
+        app.get('/getAllUsers', (req, res) => {
             allUsersData.find((err, data) => {
                 if (err) {
                     res.status(400).send({message: err.message});
@@ -101,7 +105,7 @@ async function start () {
             });
         });
 
-        app.get('/getUser/:username/:password', function (req, res) {
+        app.get('/getUser/:username/:password', (req, res) => {
             allUsersData.findOne({
                 username: req.params.username,
                 password: req.params.password
@@ -114,7 +118,7 @@ async function start () {
             });
         });
 
-        app.get('/getUser/username/:username', function (req, res) {
+        app.get('/getUser/username/:username', (req, res) => {
             allUsersData.findOne({
                 username: req.params.username
             }, (err, data) => {
@@ -126,7 +130,7 @@ async function start () {
             });
         });
 
-        app.get('/getUser/password/:password', function (req, res) {
+        app.get('/getUser/password/:password', (req, res) => {
             allUsersData.findOne({
                 password: req.params.password
             }, (err, data) => {
@@ -138,7 +142,7 @@ async function start () {
             });
         });
 
-        app.get('/getAllQuestions', function (req, res){
+        app.get('/getAllQuestions', (req, res) => {
             allQuestionsData.find((err, data) => {
                 if (err) {
                     res.status(400).send({message: err.message});
@@ -165,7 +169,13 @@ async function start () {
                 if (err) {
                     res.status(400).send({message: err.message});
                 } else {
-                    res.json(data);
+                    allQuestionsData.find((err, data) => {
+                        if (err) {
+                            res.status(400).send({message: err.message});
+                        } else {
+                            res.status(200).json(data);
+                        }
+                    });
                 }
             });
         });

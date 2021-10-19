@@ -1,11 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import { Preloader } from './Preloader';
 import { ResultQuiz } from './Result';
-
-let processLoadig = () => {
-    document.getElementById('current-question').style.display = "block";
-    document.getElementById('preload-div').style.display = "none";
-}
 
 const QuestionsComponent = () => {
     const [index, setIndex] = useState(0);
@@ -13,6 +8,15 @@ const QuestionsComponent = () => {
     const [questionsList, setQuestionsList] = useState([]);
     const [loading, setLoading] = useState(true);
     const [errorText, setErrorText] = useState('');
+    const [currentQuestionDisplay, setCurrentQuestionDisplay] = useState(true);
+    const [preloadDisplay, setPreloadDisplay] = useState(false);
+    const [resultDisplay, setResultDisplay] = useState(false);
+
+    const firstAnswer = useRef(null);
+    const secondAnswer = useRef(null);
+    const thirdAnswer = useRef(null);
+    const fourthAnswer = useRef(null);
+    const progressBar = useRef(null);
 
     useEffect(
         () => {
@@ -32,8 +36,13 @@ const QuestionsComponent = () => {
         []
     );
 
+    let processLoading = () => {
+        setCurrentQuestionDisplay(true);
+        setPreloadDisplay(false);
+    }
+
     const handleClick = () => {
-        const rbs = document.querySelectorAll('input[name="chooseAnswer"]');
+        const rbs = [firstAnswer.current, secondAnswer.current, thirdAnswer.current, fourthAnswer.current];
         let selectedValue;
         for (const rb of rbs) {
             if (rb.checked) {
@@ -46,9 +55,9 @@ const QuestionsComponent = () => {
             if (index !== questionsList.length - 1) {
                 setIndex(index + 1);
 
-                document.getElementById('current-question').style.display = "none";
-                document.getElementById('preload-div').style.display = "block";
-                setTimeout(processLoadig, 500);
+                setCurrentQuestionDisplay(false);
+                setPreloadDisplay(true);
+                setTimeout(processLoading, 500);
             }
 
             setPoints(points + 1);
@@ -56,25 +65,25 @@ const QuestionsComponent = () => {
             if (index !== questionsList.length - 1) {
                 setIndex(index + 1);
 
-                document.getElementById('current-question').style.display = "none";
-                document.getElementById('preload-div').style.display = "block";
-                setTimeout(processLoadig, 500);
+                setCurrentQuestionDisplay(false);
+                setPreloadDisplay(true);
+                setTimeout(processLoading, 500);
             }
         } else {
             alert('Choose answer!')
         }
 
         if (index === questionsList.length - 1) {
-            document.getElementById('question-div').removeChild(document.getElementById('current-question'));
-            document.getElementById('result-div').style.display = "block";
-            document.getElementById('progress-state').style.width = '100%';
+            setCurrentQuestionDisplay(false);
+            setResultDisplay(true);
+            progressBar.current.style.width = '100%';
             return 0;
         }
 
-        document.querySelectorAll('input[name="chooseAnswer"]')[0].checked = false;
-        document.querySelectorAll('input[name="chooseAnswer"]')[1].checked = false;
-        document.querySelectorAll('input[name="chooseAnswer"]')[2].checked = false;
-        document.querySelectorAll('input[name="chooseAnswer"]')[3].checked = false;
+        firstAnswer.current.checked = false;
+        secondAnswer.current.checked = false;
+        thirdAnswer.current.checked = false;
+        fourthAnswer.current.checked = false;
     }
 
     const exitToMainPage = () => {
@@ -88,29 +97,31 @@ const QuestionsComponent = () => {
     return (
         <div id = "question-div">
             <div id = "progress-bar">
-                <div id = "progress-state" style = {{width: 'calc(' + 100+'% * ('+ index + ' / ' + questionsList.length + '))'}}></div>
+                <div id = "progress-state" style = {{width: 'calc(' + 100+'% * ('+ index + ' / ' + questionsList.length + '))'}} ref={progressBar}></div>
             </div>
 
+            {currentQuestionDisplay &&
             <div id="current-question">
                 <h6>Question {index + 1}:</h6>
                 <p>{questionsList[index].question}</p>
 
                 <form action="">
-                    <input type="radio" name="chooseAnswer" id="firstVersion" value={questionsList[index].answers[0]} />
+                    <input type="radio" name="chooseAnswer" id="firstVersion" value={questionsList[index].answers[0]} ref={firstAnswer} />
                     <label htmlFor="firstVersion">{questionsList[index].answers[0]}</label><br/>
-                    <input type="radio" name="chooseAnswer" id="secondVersion" value={questionsList[index].answers[1]} />
+                    <input type="radio" name="chooseAnswer" id="secondVersion" value={questionsList[index].answers[1]} ref={secondAnswer} />
                     <label htmlFor="secondVersion">{questionsList[index].answers[1]}</label><br/>
-                    <input type="radio" name="chooseAnswer" id="thirdVersion" value={questionsList[index].answers[2]} />
+                    <input type="radio" name="chooseAnswer" id="thirdVersion" value={questionsList[index].answers[2]} ref={thirdAnswer} />
                     <label htmlFor="thirdVersion">{questionsList[index].answers[2]}</label><br/>
-                    <input type="radio" name="chooseAnswer" id="fourthVersion" value={questionsList[index].answers[3]} />
+                    <input type="radio" name="chooseAnswer" id="fourthVersion" value={questionsList[index].answers[3]} ref={fourthAnswer}/>
                     <label htmlFor="fourthVersion">{questionsList[index].answers[3]}</label><br/>
                 </form>
 
                 <button id="btn-answer" onClick = {handleClick} type="button" className="btn btn-success">Next</button>
             </div>
+            }
 
-            <Preloader />
-            <ResultQuiz points = {points}/>
+            {preloadDisplay && <Preloader />}
+            {resultDisplay && <ResultQuiz points = {points}/>}
             <button type="button" className="btn btn-danger" id="exit-user-mode" onClick={exitToMainPage}>Exit</button>
         </div>
     );
