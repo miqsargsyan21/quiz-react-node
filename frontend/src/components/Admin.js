@@ -9,6 +9,7 @@ const Admin = () => {
     const [questionsList, setQuestionsList] = useState([]);
     const [displayAdd, setDisplayAdd] = useState(false);
     const [displayView, setDisplayView] = useState(false);
+    const [displayEdit, setDisplayEdit] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const questionToAdd = useRef(null),
@@ -69,7 +70,7 @@ const Admin = () => {
             try{
                 const res = await fetch('/addQuestion', options);
                 const data = await res.json();
-                setQuestionsList(data);
+                setQuestionsList((prevState)=>[...prevState, data]);
             } catch (e) {
                 console.error('Error:', {error: e, options });
             }
@@ -85,15 +86,59 @@ const Admin = () => {
 
         const deleteItem = async () => {
             try {
-                const res = await fetch(link, {method: 'DELETE'})
-                const data = await res.json();
-                setQuestionsList(data)
+                await fetch(link, {method: 'DELETE'});
+
+                let arr = [];
+                let index = 0;
+
+                for (let item in questionsList) {
+                    if (questionsList[item]._id !== id) {
+                        arr[index] = questionsList[item];
+                        index++;
+                    }
+                }
+
+                setQuestionsList(arr);
             } catch (e) {
-                console.log('Something went wrong, please try again later.')
+                console.log('Something went wrong, please try again later.');
             }
         }
 
         deleteItem();
+    }
+
+    const updatingQuestion = (id) => async () => {
+        let answer;
+
+        if (firstCheckAnswer.current.checked) { answer = parseInt(firstAnswerToAdd.current.value); }
+        else if (secondCheckAnswer.current.checked) { answer = parseInt(secondAnswerToAdd.current.value); }
+        else if (thirdCheckAnswer.current.checked) { answer = parseInt(thirdAnswerToAdd.current.value); }
+        else if (fourthCheckAnswer.current.checked) { answer = parseInt(fourthAnswerToAdd.current.value); }
+
+        let obj = {
+            question: questionToAdd.current.value,
+            answers: [parseInt(firstAnswerToAdd.current.value), parseInt(secondAnswerToAdd.current.value), parseInt(thirdAnswerToAdd.current.value), parseInt(fourthAnswerToAdd.current.value)],
+            rightAnswer: answer
+        };
+
+        if (obj.question && obj.rightAnswer && obj.answers.length === 4) {
+            const options = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(obj)
+            }
+
+            try {
+                const res = await fetch('/updateQuestion/' + id, options)
+                const data = await res.json();
+            } catch (e) {
+                console.error('Error:', {error: e, options });
+            }
+
+            setDisplayEdit(false);
+        }
     }
 
     const exitToMainPage = () => {
@@ -125,12 +170,12 @@ const Admin = () => {
                         <tbody id="body-of-table">
                             { questionsList.length >= 1 &&
                                 questionsList.map(( currentQuestion, index) => (
-                                    <tr key={currentQuestion._id}>
+                                    <tr key={currentQuestion._id} onDoubleClick={() => { setDisplayView(true); setCurrentIndex(index); }} className="itemsOfTable" >
                                         <th scope="row">{currentQuestion._id}</th>
                                         <td>{currentQuestion.question}</td>
                                         <td>{currentQuestion.answers[0]}, {currentQuestion.answers[1]}, {currentQuestion.answers[2]}, {currentQuestion.answers[3]}</td>
                                         <td>{currentQuestion.rightAnswer}</td>
-                                        <td><img onClick={() => { setDisplayView(true); setCurrentIndex(index) }} className="image-view" src={imageView} alt="View"/></td>
+                                        <td><img onClick={ () => { setCurrentIndex(index); setDisplayEdit(true); } } className="image-view" src={imageView} alt="View"/></td>
                                         <td><img onClick={deletingQuestion(currentQuestion._id)} id="delete-question-img" className="image-view" src={imageDelete} alt="Delete"/></td>
                                     </tr>
                                 ))
@@ -138,46 +183,78 @@ const Admin = () => {
                         </tbody>
                     </table>
                     {questionsList[currentIndex] &&
-                        <Modal isShow={displayView}>
-                            <div className="modal-container" style={{"display": "flex"}}>
-                                <div id="modal-view">
-                                    <h4>Question: {questionsList[currentIndex].question}.</h4>
-                                    <p>Choices: {questionsList[currentIndex].answers[0]}, {questionsList[currentIndex].answers[1]}, {questionsList[currentIndex].answers[2]}, {questionsList[currentIndex].answers[3]}.</p>
-                                    <p>Correct Answer: {questionsList[currentIndex].rightAnswer}</p>
-                                    <button type="button" onClick={() => { setDisplayView(false); }} className="btn btn-danger" id="close-modal-info">Close</button>
-                                </div>
-                            </div>
+                        <Modal isShow={displayView} setFoo={setDisplayView}>
+                            <h4>Question: {questionsList[currentIndex].question}.</h4>
+                            <p>Choices: {questionsList[currentIndex].answers[0]}, {questionsList[currentIndex].answers[1]}, {questionsList[currentIndex].answers[2]}, {questionsList[currentIndex].answers[3]}.</p>
+                            <p>Correct Answer: {questionsList[currentIndex].rightAnswer}</p>
                         </Modal>
                     }
-                    <Modal isShow={displayAdd}>
-                        <div className="modal-container" style={{"display": "flex"}}>
-                            <div id="modal-view">
-                                <form action="">
-                                    <div className="mini-div-input">
-                                        <input type="text" placeholder="Type Question" id="question-input-id" ref={questionToAdd} />
-                                    </div>
-                                    <div className="mini-div-input">
-                                        <input type="radio" name="chooseAnswer" id="firstVersionAdding" className="radio-adding" ref={firstCheckAnswer} />
-                                        <input type="text" placeholder="Type first choice" className="choices-input" ref={firstAnswerToAdd} />
-                                    </div>
-                                    <div className="mini-div-input">
-                                        <input type="radio" name="chooseAnswer" id="secondVersionAdding" className="radio-adding" ref={secondCheckAnswer} />
-                                        <input type="text" placeholder="Type second choice" className="choices-input" ref={secondAnswerToAdd} />
-                                    </div>
-                                    <div className="mini-div-input">
-                                        <input type="radio" name="chooseAnswer" id="thirdVersionAdding" className="radio-adding" ref={thirdCheckAnswer} />
-                                        <input type="text" placeholder="Type third choice" className="choices-input" ref={thirdAnswerToAdd} />
-                                    </div>
-                                    <div className="mini-div-input">
-                                        <input type="radio" name="chooseAnswer" id="fourthVersionAdding" className="radio-adding" ref={fourthCheckAnswer} />
-                                        <input type="text" placeholder="Type fourth choice" className="choices-input" ref={fourthAnswerToAdd} />
-                                    </div>
-                                    <button onClick={addingQuestion} className="btn btn-success" type="button" id="button-add-confirm">Add question</button>
-                                    <button onClick={() => {setDisplayAdd(false)}} className="btn btn-danger" type="button" id="close-add-modal">Close</button>
-                                </form>
+                    <Modal isShow={displayAdd} setFoo={setDisplayAdd}>
+                        <form action="">
+                            <div className="mini-div-input">
+                                <input type="text" placeholder="Type Question" id="question-input-id" ref={questionToAdd} />
                             </div>
-                        </div>
+                            <div className="mini-div-input">
+                                <input type="radio" name="chooseAnswer" id="firstVersionAdding" className="radio-adding" ref={firstCheckAnswer} />
+                                <input type="text" placeholder="Type first choice" className="choices-input" ref={firstAnswerToAdd} />
+                            </div>
+                            <div className="mini-div-input">
+                                <input type="radio" name="chooseAnswer" id="secondVersionAdding" className="radio-adding" ref={secondCheckAnswer} />
+                                <input type="text" placeholder="Type second choice" className="choices-input" ref={secondAnswerToAdd} />
+                            </div>
+                            <div className="mini-div-input">
+                                <input type="radio" name="chooseAnswer" id="thirdVersionAdding" className="radio-adding" ref={thirdCheckAnswer} />
+                                <input type="text" placeholder="Type third choice" className="choices-input" ref={thirdAnswerToAdd} />
+                            </div>
+                            <div className="mini-div-input">
+                                <input type="radio" name="chooseAnswer" id="fourthVersionAdding" className="radio-adding" ref={fourthCheckAnswer} />
+                                <input type="text" placeholder="Type fourth choice" className="choices-input" ref={fourthAnswerToAdd} />
+                            </div>
+                            <button onClick={addingQuestion} className="btn btn-success" type="button" id="button-add-confirm">Add question</button>
+                        </form>
                     </Modal>
+                    {questionsList[currentIndex] &&
+                        <Modal isShow={displayEdit} setFoo={setDisplayEdit}>
+                            <form action="">
+                                <div className="mini-div-input">
+                                    <input type="text" defaultValue={questionsList[currentIndex].question} id="question-input-id" ref={questionToAdd} />
+                                </div>
+                                <div className="mini-div-input">
+                                    {
+                                        questionsList[currentIndex].answers[0] === questionsList[currentIndex].rightAnswer
+                                        ? <input type="radio" name="chooseAnswer" id="firstVersionAdding" className="radio-adding" defaultChecked={true} ref={firstCheckAnswer}/>
+                                            : <input type="radio" name="chooseAnswer" id="firstVersionAdding" className="radio-adding" ref={firstCheckAnswer}/>
+                                    }
+                                    <input type="text" defaultValue={questionsList[currentIndex].answers[0]} className="choices-input" ref={firstAnswerToAdd} />
+                                </div>
+                                <div className="mini-div-input">
+                                    {
+                                        questionsList[currentIndex].answers[1] === questionsList[currentIndex].rightAnswer
+                                        ? <input type="radio" name="chooseAnswer" id="secondVersionAdding" className="radio-adding" defaultChecked={true} ref={secondCheckAnswer} />
+                                            : <input type="radio" name="chooseAnswer" id="secondVersionAdding" className="radio-adding" ref={secondCheckAnswer} />
+                                    }
+                                    <input type="text" defaultValue={questionsList[currentIndex].answers[1]} className="choices-input" ref={secondAnswerToAdd} />
+                                </div>
+                                <div className="mini-div-input">
+                                    {
+                                        questionsList[currentIndex].answers[2] === questionsList[currentIndex].rightAnswer
+                                        ? <input type="radio" name="chooseAnswer" id="thirdVersionAdding" className="radio-adding" defaultChecked={true} ref={thirdCheckAnswer} />
+                                            : <input type="radio" name="chooseAnswer" id="thirdVersionAdding" className="radio-adding" ref={thirdCheckAnswer} />
+                                    }
+                                    <input type="text" defaultValue={questionsList[currentIndex].answers[2]} className="choices-input" ref={thirdAnswerToAdd} />
+                                </div>
+                                <div className="mini-div-input">
+                                    {
+                                        questionsList[currentIndex].answers[3] === questionsList[currentIndex].rightAnswer
+                                        ? <input type="radio" name="chooseAnswer" id="fourthVersionAdding" className="radio-adding" defaultChecked={true} ref={fourthCheckAnswer} />
+                                            : <input type="radio" name="chooseAnswer" id="fourthVersionAdding" className="radio-adding" ref={fourthCheckAnswer} />
+                                    }
+                                    <input type="text" defaultValue={questionsList[currentIndex].answers[3]} className="choices-input" ref={fourthAnswerToAdd} />
+                                </div>
+                                <button className="btn btn-success" type="button" id="button-add-confirm" onClick={updatingQuestion(questionsList[currentIndex]._id)}>Edit question</button>
+                            </form>
+                        </Modal>
+                    }
                 </Route>
                 <Route path="/admin">
                     <div id="admin-welcome-div">

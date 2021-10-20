@@ -60,10 +60,9 @@ async function start () {
         app.post('/addQuestion', (req, res) => {
             const a = new allQuestionsData(req.body)
             a.save()
-                .then(() => {
-                    allQuestionsData.find((err, data) => {
+                .then((data) => {
+                    console.log(data)
                         res.status(200).json(data);
-                    });
                 })
                 .catch(err => res.status(400).send({message: err.message}));
         });
@@ -105,34 +104,9 @@ async function start () {
             });
         });
 
-        app.get('/getUser/:username/:password', (req, res) => {
-            allUsersData.findOne({
-                username: req.params.username,
-                password: req.params.password
-            }, (err, data) => {
-                if (err) {
-                    res.status(400).send({message: err.message});
-                } else {
-                    res.json(data);
-                }
-            });
-        });
-
-        app.get('/getUser/username/:username', (req, res) => {
+        app.get('/getUser/:username', (req, res) => {
             allUsersData.findOne({
                 username: req.params.username
-            }, (err, data) => {
-                if (err) {
-                    res.status(400).send({message: err.message});
-                } else {
-                    res.json(data);
-                }
-            });
-        });
-
-        app.get('/getUser/password/:password', (req, res) => {
-            allUsersData.findOne({
-                password: req.params.password
             }, (err, data) => {
                 if (err) {
                     res.status(400).send({message: err.message});
@@ -169,16 +143,26 @@ async function start () {
                 if (err) {
                     res.status(400).send({message: err.message});
                 } else {
-                    allQuestionsData.find((err, data) => {
-                        if (err) {
-                            res.status(400).send({message: err.message});
-                        } else {
-                            res.status(200).json(data);
-                        }
-                    });
+                    res.status(200).json(data);
                 }
             });
         });
+
+        app.put('/updateQuestion/:id', (req, res) => {
+            const id = req.params.id;
+
+            allQuestionsData.findById(id, (err, data) => {
+                if (err) {
+                    res.status(400).send({message: err.message});
+                } else {
+                    data.question = req.body.question;
+                    data.answers = req.body.answers;
+                    data.rightAnswer = req.body.rightAnswer;
+                    data.save();
+                    res.status(200).json(data);
+                }
+            })
+        })
 
         app.listen(PORT, () => {
             console.log("Server is started on http://localhost:" + PORT);

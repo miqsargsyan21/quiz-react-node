@@ -12,16 +12,22 @@ const Start = (props) => {
         const username = usernameUser.current.value,
               password = passwordUser.current.value;
 
-        let link = '/getUser/' + username + '/' + password;
+        let link = '/getUser/' + username;
         const res = await fetch(link);
         const data = await res.json();
 
-        if (data?.isAdmin) {
-            history.push({pathname: '/admin'});
-        } else if (data?.isAdmin === false) {
-            history.push({pathname: '/user'});
+        if (data?.password === password) {
+            if (data?.isAdmin) {
+                history.push({pathname: '/admin'});
+            } else {
+                history.push({pathname: '/user'});
+            }
+        } else if (data) {
+            alert('Password is not found.');
+            usernameUser.current.value = '';
+            passwordUser.current.value = '';
         } else {
-            alert('Your username or password is not defined!');
+            alert('User is not found.');
             usernameUser.current.value = '';
             passwordUser.current.value = '';
         }
