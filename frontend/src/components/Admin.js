@@ -107,7 +107,7 @@ const Admin = () => {
         deleteItem();
     }
 
-    const updatingQuestion = (id) => async () => {
+    const updatingQuestion = (id, index) => async () => {
         let answer;
 
         if (firstCheckAnswer.current.checked) { answer = parseInt(firstAnswerToAdd.current.value); }
@@ -131,8 +131,20 @@ const Admin = () => {
             }
 
             try {
-                const res = await fetch('/updateQuestion/' + id, options)
-                const data = await res.json();
+                await fetch('/updateQuestion/' + id, options)
+
+                let arrQuestions = [];
+
+                for (let i = 0; i < questionsList.length; i++) {
+                    arrQuestions[i] = questionsList[i];
+                    if (i === index) {
+                        arrQuestions[i].question = obj.question;
+                        arrQuestions[i].answers = obj.answers;
+                        arrQuestions[i].rightAnswer = obj.rightAnswer;
+                    }
+                }
+
+                setQuestionsList(arrQuestions)
             } catch (e) {
                 console.error('Error:', {error: e, options });
             }
@@ -251,7 +263,7 @@ const Admin = () => {
                                     }
                                     <input type="text" defaultValue={questionsList[currentIndex].answers[3]} className="choices-input" ref={fourthAnswerToAdd} />
                                 </div>
-                                <button className="btn btn-success" type="button" id="button-add-confirm" onClick={updatingQuestion(questionsList[currentIndex]._id)}>Edit question</button>
+                                <button className="btn btn-success" type="button" id="button-add-confirm" onClick={updatingQuestion(questionsList[currentIndex]._id, currentIndex)}>Edit question</button>
                             </form>
                         </Modal>
                     }
